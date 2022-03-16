@@ -1,3 +1,4 @@
+from tkinter import CASCADE
 from django.contrib.auth import get_user_model
 from django.db import models
 
@@ -43,3 +44,19 @@ class Comment(models.Model):
     created = models.DateTimeField(
         "Дата добавления", auto_now_add=True, db_index=True
     )
+
+
+class Follow(models.Model):
+    user = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="follower",
+    )
+    following = models.ForeignKey(
+        User,
+        on_delete=models.CASCADE,
+        related_name="following",
+    )
+
+    class Meta:
+        unique_together = ["user", "following"]
